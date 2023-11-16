@@ -5,9 +5,6 @@ from django.core import serializers
 import json
 from .models import Store
 
-def index(request):
-    return HttpResponse("Success!!")
-
 def get_store_list(request):
     stores = Store.objects.all()
     # store_list = serializers.serialize("json", stores)
@@ -16,6 +13,11 @@ def get_store_list(request):
         "code": "success"
     }
 
+    store_list = []
+    for store in stores:
+        store_list.append(store.id)
+
+    json_result["store_list"] = store_list
 
     return JsonResponse(json_result)
 
