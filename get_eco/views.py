@@ -9,15 +9,24 @@ def get_store_list(request):
     stores = Store.objects.all()
     # store_list = serializers.serialize("json", stores)
 
-    json_result = {
-        "code": "success"
-    }
-
     store_list = []
     for store in stores:
-        store_list.append(store.id)
+        store_json = {
+            "id": store.id,
+            "name": store.name,
+            "menu": store.menu_name,
+            "address": store.address
+        }
+        store_list.append(store_json)
 
-    json_result["store_list"] = store_list
+    json_result = {
+        "code": "success",
+        "data": {
+            "store_list": store_list,
+            "store_count": len(store_list),
+            "type": "all"
+        }
+    }
 
     return JsonResponse(json_result)
 
